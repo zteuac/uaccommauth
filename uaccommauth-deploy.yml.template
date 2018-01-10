@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: uaccommauth
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: uaccommauth
+    spec:
+      containers:
+      - name: uaccommauth
+        image: wcr.io/zteuac/uaccommauth:$TAG
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 4Gi
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: wrelease
