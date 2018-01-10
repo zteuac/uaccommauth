@@ -19,15 +19,15 @@ build:
     - script: 
       name: build
       code: |
-        mkdir -p /usr/local/tomcat/webapps/uacmobile
+        mkdir -p /usr/local/tomcat/webapps/uaccommauth
         ls
         echo 'pwd1'
         pwd
-        mv ./uacmobile.war /usr/local/tomcat/webapps/uacmobile/
-        cd /usr/local/tomcat/webapps/uacmobile 
+        mv ./uaccommauth.war /usr/local/tomcat/webapps/uaccommauth/
+        cd /usr/local/tomcat/webapps/uaccommauth 
         du -sh ./*
-        jar -xvf uacmobile.war
-        rm -fr uacmobile.war
+        jar -xvf uaccommauth.war
+        rm -fr uaccommauth.war
         cd -
         cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
             && echo 'Asia/Shanghai' >/etc/timezone
@@ -37,7 +37,7 @@ build:
     - internal/docker-push:
         username: $DOCKER_USER
         password: $DOCKER_PASSWORD
-        repository: wcr.io/zteuac/uacmobile
+        repository: wcr.io/zteuac/uaccommauth
         working-dir: /usr/local/tomcat/webapps/
         tag: $TAG
         ports: 80
@@ -72,13 +72,13 @@ deploy:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: apply -f ./uacmobile-deploy.yml --namespace=$NS
+        command: apply -f ./uaccommauth-deploy.yml --namespace=$NS
     - kubectl:
         name: apply service
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: apply -f ./uacmobile-service.yml --namespace=$NS
+        command: apply -f ./uaccommauth-service.yml --namespace=$NS
     - kubectl:
         name: get NodePort address
         server: $KUBERNETES_MASTER
